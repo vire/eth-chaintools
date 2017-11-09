@@ -23,7 +23,8 @@
     "express": "4.16.2",
     "next": "4.1.4",
     "react": "16.0.0",
-    "react-dom": "16.0.0"
+    "react-dom": "16.0.0",
+    "web3": "0.20.0"
   },
   "devDependencies": {
     "babel-eslint": "8.0.1",
