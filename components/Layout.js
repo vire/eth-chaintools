@@ -5,7 +5,7 @@ import Head from 'next/head'
 const Layout = ({ children }) => (
   <div className="c-text">
     <Head>
-      <title>Ethereum Chaintools 🛠</title>
+      <title>Ethereum Chaintools</title>
       <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Mono|Source+Sans+Pro" />
       <link rel="stylesheet" href="/static/blaze.min.css" />
       {/* favicon stuff */}
