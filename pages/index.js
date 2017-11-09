@@ -4,6 +4,7 @@ import * as Web3 from 'web3'
 import { GETH_URL } from '../config/api'
 import Layout from '../components/Layout'
 import SearchForm from '../components/SearchForm'
+import TxDetails from '../components/TxDetails'
 
 const getLatestNBlocks = web3 => (defaultBlock, count) => {
   const promises = []
@@ -28,6 +29,8 @@ class IndexPage extends React.Component {
   state = {
     blocks: [],
     defaultBlock: '',
+    blockDetails: undefined,
+    txDetails: undefined,
   }
 
   constructor(props) {
@@ -47,18 +50,24 @@ class IndexPage extends React.Component {
     })
   }
 
-  handleSearch = ({ tx }) => {
+  handleSearch = ({ block, tx }) => {
     if (tx) {
       this.web3.eth.getTransaction(tx, (err, txDetails) => {
         this.setState({
           txDetails,
         })
       })
+    } else if (block) {
+      this.web3.eth.getBlock(block, true, (err, blockDetails) => {
+        this.setState({
+          blockDetails,
+        })
+      })
     }
   }
 
   render() {
-    const { defaultBlock, blocks, txDetails } = this.state
+    const { defaultBlock, blocks, blockDetails, txDetails } = this.state
 
     return (
       <Layout>
@@ -73,10 +82,11 @@ class IndexPage extends React.Component {
           <SearchForm onSearch={this.handleSearch} />
 
           <div className="IndexPage__content">
-            {txDetails && (
-              <div>
-                <h3 className="u-centered">Transaction</h3>
-                <pre>{JSON.stringify(txDetails, null, 2)}</pre>
+            {txDetails && <TxDetails details={txDetails} />}
+            {blockDetails && (
+              <div style={{ border: '1px dotted #e2e2e2', margin: '1em 0' }}>
+                <h3 className="u-centered">Details for block: {blockDetails.number}</h3>
+                <pre>{JSON.stringify(blockDetails, null, 2)}</pre>
               </div>
             )}
             {blocks.length !== 0 && (
